@@ -6,6 +6,7 @@ import (
 
 	"github.com/erdembaran/go-auth/config"
 	"github.com/erdembaran/go-auth/database"
+	"github.com/erdembaran/go-auth/routes"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -18,11 +19,7 @@ func main() {
 
 	app := fiber.New()
 
-	app.Get("/api/v1", func(c *fiber.Ctx) error {
-		return c.Status(200).JSON(fiber.Map{
-			"message": "go go go auth!",
-		})
-	})
+	routes.Setup(app)
 
 	port := config.GetEnv("PORT", "4000")
 
