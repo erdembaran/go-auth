@@ -8,4 +8,5 @@ import (
 
 func Setup(app *fiber.App) {
 	app.Get("/api/v1/users", controllers.GetUsers)
+	app.Get("/api/v1/users/:id", controllers.GetUser)
 }
