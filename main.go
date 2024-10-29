@@ -19,7 +19,8 @@ func main() {
 
 	app := fiber.New()
 
-	routes.Setup(app)
+	routes.SetupUserRoutes(app)
+	routes.SetupAuthRoutes(app)
 
 	port := config.GetEnv("PORT", "4000")
 

@@ -10,11 +10,12 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// GetUsers function to get all users
+
 func GetUsers(c *fiber.Ctx) error {
 	var users []models.User
 
 	cursor, err := database.Collection.Find(context.Background(), bson.M{})
-
 	if err != nil {
 		return err
 	}
@@ -32,6 +33,8 @@ func GetUsers(c *fiber.Ctx) error {
 		return c.JSON(users)
 }
 
+// GetUser function to get a single user
+
 func GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 
@@ -43,14 +46,12 @@ func GetUser(c *fiber.Ctx) error {
 	filter := bson.M{"_id": userId}
 
 	user := database.Collection.FindOne(c.Context(), filter)
-
 	if user.Err() != nil {
 		return c.Status(404).JSON(fiber.Map{"success": false, "message": "User not found"})
 	}
 
 	var result bson.M
 	err = user.Decode(&result)
-
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"success": false, "message": "Error decoding user data", "error": err.Error()})
 	}
