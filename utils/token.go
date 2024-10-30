@@ -31,6 +31,17 @@ func SetTokenCookie(c *fiber.Ctx, token string) {
 	})
 }
 
+func ClearTokenCookie(c *fiber.Ctx) {
+	c.Cookie(&fiber.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Unix(0, 0), // Sets the expiration to the past
+		HTTPOnly: true,
+		Secure:   true,      // Same as when the cookie was set
+		SameSite: "Lax",     // Same as when the cookie was set
+	})
+}
+
 func VerifyToken(tokenString string) (bool, error) {
 	secret := []byte(os.Getenv("JWT_SECRET"))
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

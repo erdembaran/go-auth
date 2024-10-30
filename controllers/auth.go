@@ -93,3 +93,10 @@ func Login(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"token": token, "user": user, "message": "Logged in successfully!"})
 }
 
+
+func Logout(c *fiber.Ctx) error {
+	utils.ClearTokenCookie(c)
+	return c.JSON(fiber.Map{"message": "Logged out successfully!"})
+}
+
+
