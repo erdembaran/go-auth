@@ -11,4 +11,5 @@ func SetupAuthRoutes(app *fiber.App) {
 	authGroup.Post("/login", controllers.Login)
 	authGroup.Post("/logout", controllers.Logout)
 	authGroup.Post("/register", controllers.Register)
+	authGroup.Post("/forgot-password", controllers.ForgotPassword)
 }

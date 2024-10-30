@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"os"
 	"time"
 
@@ -51,4 +53,14 @@ func VerifyToken(tokenString string) (bool, error) {
 		return false, err
 	}
 	return token.Valid, nil
+}
+
+
+func GenerateRandomToken() string {
+	bytes := make([]byte, 16)
+	_, err := rand.Read(bytes)
+	if err != nil {
+		return ""
+	}
+	return hex.EncodeToString(bytes)
 }

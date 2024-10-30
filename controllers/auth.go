@@ -99,4 +99,49 @@ func Logout(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "Logged out successfully!"})
 }
 
+func ForgotPassword(c *fiber.Ctx) error {
+	// parse the incoming request
+	var req models.ForgotPasswordRequest
+	if err := c.BodyParser(&req); err != nil || req.Email == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
+	}
+
+	// to find a user with the specified email 
+	var user models.User
+	filter := bson.M{"email": req.Email}
+	err := database.Collection.FindOne(context.Background(), filter).Decode(&user)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+	}
+
+	// generate a secure random token
+	resetToken := utils.GenerateRandomToken()
+	resetTokenExpiresAt := primitive.NewDateTimeFromTime(time.Now().Add(10 * time.Minute))
+
+
+	// update the user with the reset token and expiry date
+	update := bson.M{
+		"$set": bson.M{
+			"resetPasswordToken":   resetToken,
+			"resetPasswordExpiresAt": resetTokenExpiresAt,
+		},
+	}
+
+	// update the user in the database
+	_, err = database.Collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to set reset token"})
+	}
+
+	// send the reset link to the user's email
+	resetLink := "http://localhost:3000/reset-password?token=" + resetToken
+	emailBody := "Click the link to reset your password: " + resetLink
+	err = utils.SendEmail(req.Email, "Password Reset", emailBody)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to send email"})
+	}
+
+	return c.JSON(fiber.Map{"message": "Password reset link sent to your email."})
+}
+
 
