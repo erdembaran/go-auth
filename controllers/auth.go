@@ -144,4 +144,57 @@ func ForgotPassword(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "Password reset link sent to your email."})
 }
 
+func ResetPassword(c *fiber.Ctx) error {
+	// parse the incoming request to get the new password
+	var req *models.ResetPasswordRequest
+	if err := c.BodyParser(&req); err != nil || req.NewPassword == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "New password is required"})
+	}
+
+	// retrieve the token from parameters
+	token := c.Params("token")
+	if token == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Token is missing"})
+	}
+
+	// find user by reset token and check expiration
+	var user models.User
+	filter := bson.M{
+		"resetPasswordToken": token,
+		"resetPasswordExpiresAt": bson.M{
+			"$gt": primitive.NewDateTimeFromTime(time.Now()), // ensure token is not expired
+		},
+	}
+	err := database.Collection.FindOne(context.Background(), filter).Decode(&user)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid or expired token"})
+	}
+
+	// hash the new password
+	hashedPassword := utils.GeneratePassword(req.NewPassword)
+	if hashedPassword == "" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to hash password"})
+	}
+
+	// update the user's password and clear the reset token fields
+	update := bson.M{
+		"$set": bson.M{"password": hashedPassword},
+		"$unset": bson.M{
+			"resetPasswordToken":     nil,
+			"resetPasswordExpiresAt": nil,
+		},
+	}
+	_, err = database.Collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to reset password"})
+	}
+
+	return c.JSON(fiber.Map{"message": "Password reset successfully!"})
+}
+
+
+  
+
+
+
 

@@ -7,9 +7,10 @@ import (
 
 func SetupAuthRoutes(app *fiber.App) {
 	authGroup := app.Group("/api/v1/auth")
-
+	
 	authGroup.Post("/login", controllers.Login)
 	authGroup.Post("/logout", controllers.Logout)
 	authGroup.Post("/register", controllers.Register)
 	authGroup.Post("/forgot-password", controllers.ForgotPassword)
+	authGroup.Put("/reset-password/:token", controllers.ResetPassword)
 }
