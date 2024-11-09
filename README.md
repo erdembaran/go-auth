@@ -35,7 +35,7 @@ go mod download
 
 3. Set up environment variables (create a `.env` file)
 
-env
+```
 PORT=4000
 MONGO_URI=YOUR_MONGO_DB_URI
 ENV=development
@@ -44,23 +44,30 @@ SMTP_HOST=smtp.example.com
 SMTP_PORT=smtp_port
 SMTP_USER=your-email@example.com
 SMTP_PASS=your-email-password
+```
 
 ## API Endpoints
 
 ### Authentication Routes
 
+```
 POST /api/v1/auth/register - Register a new user
 POST /api/v1/auth/login - Login user
 POST /api/v1/auth/logout - Logout user
 POST /api/v1/auth/forgot-password - Request password reset
 PUT /api/v1/auth/reset-password/:token - Reset password
 
+```
+
 ### User Routes (Protected)
 
+```
 GET /api/v1/users - Get all users
 GET /api/v1/users/:id - Get specific user
+```
 
 bash
+
 go run main.go
 
 2. The API will be available at `http://localhost:3000`
