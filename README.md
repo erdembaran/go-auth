@@ -24,17 +24,17 @@ Before running this project, make sure you have the following installed:
 
 1. Clone the repository
 
-bash
+   bash
 
-git clone https://github.com/erdembaran/go-auth.git
+   git clone https://github.com/erdembaran/go-auth.git
 
-cd go-auth
+   cd go-auth
 
 2. Install dependencies
 
-bash
+   bash
 
-go mod download
+   go mod download
 
 3. Set up environment variables (create a `.env` file)
 
