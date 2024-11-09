@@ -28,7 +28,6 @@ Before running this project, make sure you have the following installed:
 bash
 git clone https://github.com/erdembaran/go-auth.git
 cd go-auth
-
 ```
 
 2. Install dependencies
