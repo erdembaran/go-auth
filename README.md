@@ -59,7 +59,6 @@ POST /api/v1/auth/login - Login user
 POST /api/v1/auth/logout - Logout user
 POST /api/v1/auth/forgot-password - Request password reset
 PUT /api/v1/auth/reset-password/:token - Reset password
-
 ```
 
 ### User Routes (Protected)
@@ -69,9 +68,9 @@ GET /api/v1/users - Get all users
 GET /api/v1/users/:id - Get specific user
 ```
 
-bash
+    bash
 
-go run main.go
+    go run main.go
 
 2. The API will be available at `http://localhost:3000`
 
