@@ -22,7 +22,7 @@ func Register(c *fiber.Ctx) error {
 	if user.Username == "" || user.Email == "" || user.Password == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Username, email, and password are required",
-		})	
+		})
 	}
 
 	// Check if user already exists
