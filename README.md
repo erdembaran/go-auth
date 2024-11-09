@@ -74,7 +74,7 @@ bash
 go run main.go
 ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at `http://localhost:4000`
 
 ## Security Features
 
