@@ -28,7 +28,7 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/go-auth:tagname
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/go-auth:latest
 
   deploy-to-render:
     needs: build-and-push
