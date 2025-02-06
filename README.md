@@ -69,11 +69,13 @@ The API will be available at `http://localhost:4000`
 For production deployment on Render:
 
 1. Create a new Web Service on Render
-2. Connect your GitHub repository
-3. Set the following:
-   - Build Command: `go build -o app`
-   - Start Command: `./app`
-4. Add the following environment variables in Render dashboard:
+2. Choose "Docker Registry" as deployment type
+3. Use the following Docker image: `baranerdem/go-auth:latest`
+4. Set the following:
+   - Instance Type: Choose based on your needs (Free/Standard)
+   - Region: Choose closest to your users
+   - Branch: main
+5. Add the following environment variables in Render dashboard:
    ```
    PORT=4000
    MONGO_URI=your-mongodb-atlas-uri
@@ -84,6 +86,9 @@ For production deployment on Render:
    SMTP_USER=your-smtp-user
    SMTP_PASS=your-smtp-password
    ```
+6. Click "Create Web Service"
+
+The service will automatically pull the Docker image and deploy your application.
 
 ## API Endpoints
 
@@ -165,3 +170,7 @@ docker-compose down -v
 - [MongoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 - [JWT Go](https://github.com/golang-jwt/jwt)
 - [Air](https://github.com/cosmtrek/air)
+
+```
+
+```
