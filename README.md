@@ -11,44 +11,79 @@ A robust authentication API built with Go, Fiber, and MongoDB that provides comp
 - 🔒 Secure Password Hashing
 - 🍪 HTTP-Only Cookie Support
 - 📝 MongoDB Integration
+- 🐳 Docker Support
+- 🚀 Production-Ready Deployment
 
 ## Prerequisites
 
 Before running this project, make sure you have the following installed:
 
-- Go (1.16 or later)
+- Go (1.22 or later)
 - MongoDB
+- Docker & Docker Compose (for containerized setup)
 - SMTP Server (for email functionality)
 
 ## Installation
 
+### Local Development
+
 1. Clone the repository
 
-```
-bash
+```bash
 git clone https://github.com/erdembaran/go-auth.git
 cd go-auth
 ```
 
 2. Install dependencies
 
-```
-bash
+```bash
 go mod download
 ```
 
-3. Set up environment variables (create a `.env` file)
+3. Set up environment variables (create a `.env.local` file)
 
-```
+```env
 PORT=4000
-MONGO_URI=YOUR_MONGO_DB_URI
-ENV=development
-JWT_SECRET=YOUR_JWT_SECRET
+MONGO_URI=mongodb://mongodb:27017/go-auth?directConnection=true
+ENV=local
+JWT_SECRET=your-jwt-secret
 SMTP_HOST=smtp.example.com
 SMTP_PORT=smtp_port
 SMTP_USER=your-email@example.com
 SMTP_PASS=your-email-password
 ```
+
+### Using Docker
+
+1. Make sure Docker and Docker Compose are installed
+2. Run the application using Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+The API will be available at `http://localhost:4000`
+
+### Production Deployment (Render)
+
+For production deployment on Render:
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Set the following:
+   - Build Command: `go build -o app`
+   - Start Command: `./app`
+4. Add the following environment variables in Render dashboard:
+   ```
+   PORT=4000
+   MONGO_URI=your-mongodb-atlas-uri
+   ENV=production
+   JWT_SECRET=your-production-jwt-secret
+   SMTP_HOST=your-smtp-host
+   SMTP_PORT=your-smtp-port
+   SMTP_USER=your-smtp-user
+   SMTP_PASS=your-smtp-password
+   ```
 
 ## API Endpoints
 
@@ -69,12 +104,26 @@ GET /api/v1/users - Get all users
 GET /api/v1/users/:id - Get specific user
 ```
 
-```
-bash
-go run main.go
+## Development
+
+### Running Locally with Air (Hot Reload)
+
+```bash
+air
 ```
 
-The API will be available at `http://localhost:4000`
+### Running with Docker
+
+```bash
+# Start the application and MongoDB
+docker-compose up --build
+
+# Stop the application
+docker-compose down
+
+# Remove volumes (if needed)
+docker-compose down -v
+```
 
 ## Security Features
 
@@ -83,6 +132,24 @@ The API will be available at `http://localhost:4000`
 - HTTP-Only Cookies
 - Secure Password Reset Flow
 - Protected Routes with Middleware
+- Environment-based Configuration
+- Secure Production Setup
+
+## Project Structure
+
+```
+.
+├── config/         # Configuration and environment setup
+├── controllers/    # Request handlers
+├── database/      # Database connection and models
+├── middleware/    # Custom middleware
+├── models/        # Data models
+├── routes/        # API routes
+├── utils/         # Utility functions
+├── .env.local     # Local environment variables
+├── Dockerfile     # Docker configuration
+└── docker-compose.yml  # Docker Compose configuration
+```
 
 ## Contributing
 
@@ -97,3 +164,4 @@ The API will be available at `http://localhost:4000`
 - [Fiber](https://github.com/gofiber/fiber)
 - [MongoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 - [JWT Go](https://github.com/golang-jwt/jwt)
+- [Air](https://github.com/cosmtrek/air)
