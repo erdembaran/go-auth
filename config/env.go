@@ -8,11 +8,15 @@ import (
 )
 
 func LoadEnv() {
-	if os.Getenv("ENV") != "production" {
-		err := godotenv.Load(".env")
-		if err != nil {
-			log.Fatal("Error loading .env file:", err)
-		}
+	if os.Getenv("ENV") == "production" {
+		log.Println("Running in production mode, skipping .env file load")
+		return
+	}
+	
+	envFile := ".env.local"
+	if err := godotenv.Load(envFile); err != nil {
+		log.Printf("Warning: Error loading %s file: %v", envFile, err)
+		log.Println("Using environment variables from system")
 	}
 }
 

@@ -1,0 +1,10 @@
+  .git
+  .idea
+  .vscode
+  
+  build/
+  dist/
+  tmp/
+  *.log
+  
+  /vendor/

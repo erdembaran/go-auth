@@ -1,7 +1,7 @@
 # env files
-.env
 .env.local
 .env.development
+.env.production
 
 # Binaries for programs and plugins
 *.exe

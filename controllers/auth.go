@@ -90,7 +90,7 @@ func Login(c *fiber.Ctx) error {
 
 	utils.SetTokenCookie(c, token)
 
-	return c.JSON(fiber.Map{"token": token, "user": user, "message": "Logged in successfully!"})
+	return c.JSON(fiber.Map{"user": user, "message": "Logged in successfully!"})
 }
 
 
