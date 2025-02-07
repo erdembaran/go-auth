@@ -4,7 +4,7 @@ A robust authentication API built with Go, Fiber, and MongoDB that provides comp
 
 ## Features
 
-- 🔐 User Authentication (Register/Login/Logout)
+- 🔐 User Authentication (Login/Logout/Register/Forgot password/Reset-password)
 - 🔑 JWT-based Authentication
 - 📧 Password Reset via Email
 - 👤 User Management
